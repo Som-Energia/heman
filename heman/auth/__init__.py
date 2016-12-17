@@ -38,6 +38,8 @@ def check_cups_allowed(func):
         return func(*args, **kwargs)
     return decorator
 
+def get_perm(contract, perm):
+    return current_user.perm(contract, perm)
 
 class APIUser(login.UserMixin):
     """API User object
@@ -57,6 +59,15 @@ class APIUser(login.UserMixin):
     def allowed(self, value, key='name'):
         return value in [x[key] for x in self.allowed_contracts]
 
+    # NOTE: Temporary workaround to enable cch access to all contracts
+    #       while working on implementation of empowering v2.
+    #       Proper permission management should be implemented as
+    #       check_xxx_allowed refactoring to check resource permissions
+    def perm(self, contract, key='onlycch'):
+        for x in self.allowed_contracts:
+            if x['name']==contract:
+                return x.get(key, False)
+        return False
 
 @login_manager.header_loader
 def load_user_from_header(header_val):
