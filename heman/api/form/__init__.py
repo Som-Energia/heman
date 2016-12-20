@@ -181,7 +181,7 @@ class EmpoweringSettingsForm(FormResource, AuthorizedByContractResource):
             cups_id = contract_obj.read(contract_ids[0], ['cups'])['cups'][0]
             cups_obj = peek.model('giscedata.cups.ps')
             res = cups_obj.read(cups_id, ['empowering'])
-            res.update = {'onlycch': check_perm(contract, 'onlycch'})
+            res.update({'onlycch': get_perm(contract, 'onlycch')})
         return Response(json.dumps(res), mimetype='application/json')
 
     def post(self, contract):
