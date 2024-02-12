@@ -33,11 +33,12 @@ class MongoCurveBackend:
 
         query = [
             {'$match': match_query },
-            {'$group': {'_id': {'datetime': '$datetime', 'name': '$name'},
-                        'datetime': {'$first': '$datetime'},
-                        'ai': {'$first': '$ai'},
-                        'season': {'$first': '$season'},
-                        }
+            {'$group': {
+                '_id': {'datetime': '$datetime', 'name': '$name'},
+                'datetime': {'$first': '$datetime'},
+                'ai': {'$first': '$ai'},
+                'season': {'$first': '$season'},
+                }
             },
             {'$sort': {
                     'datetime': ASCENDING,
