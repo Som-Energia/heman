@@ -42,10 +42,7 @@ class MongoCurveBackend:
             },
             {'$sort': {
                     'datetime': ASCENDING,
-                    # Sorting dupped times when changing from
-                    # summer (season=1) to winter (season=0)
-                    'season': DESCENDING
-                    }
+                }
             }
         ]
 

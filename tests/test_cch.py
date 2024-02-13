@@ -5,6 +5,7 @@ from testdata.curves import (
     tg_cchfact_existing_points,
     tg_cchfact_NOT_existing_points_BUT_f1,
     tg_cchfact_p1_repeated_records,
+    tg_cchfact_f5d_ordered_records,
 )
 
 from yamlns import ns
@@ -13,7 +14,7 @@ from yamlns.pytestutils import assert_ns_equal
 from somutils.isodates import localisodate
 
 from heman.app import application
-from heman.api.cch import TgCchF1Repository, TgCchP1Repository
+from heman.api.cch import TgCchF1Repository, TgCchP1Repository, TgCchF5dRepository
 from heman.api.cch.mongo_curve_backend import MongoCurveBackend
 from heman.api.cch.timescale_curve_backend import TimescaleCurveBackend
 
@@ -187,4 +188,17 @@ class TestCurveBackend(object):
 
         yaml_snapshot(ns(
             result=[x for x in result]
+        ))
+
+    def test_get_curve_f5d_mongo_ordered_records(self, yaml_snapshot):
+        backend = MongoCurveBackend(get_mongo_instance())
+        result = backend.get_curve(
+            curve_type=TgCchF5dRepository(backend),
+            start=localisodate('2022-03-27'),
+            end=localisodate('2022-03-28'),
+            cups=tg_cchfact_f5d_ordered_records['cups'],
+        )
+
+        yaml_snapshot(ns(
+            result=list(result)
         ))
