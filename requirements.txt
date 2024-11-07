@@ -1,6 +1,7 @@
 # Version restrictions needed to keep it working with Python 2 are marked Py2
 # Once Py2 support is droped all frozen indirect dependencies could be dropped
 
+python-dateutil<2.9.0 # Py2, indirect
 pymongo<3 # using old api, indirect flask-pymongo
 #pymongo<4 # Py2, indirect flask-pymongo
 redis<4 # Py2, indirect rq
